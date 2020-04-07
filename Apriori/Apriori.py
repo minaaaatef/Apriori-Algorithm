@@ -1,10 +1,12 @@
-
+import pandas as pd
 
 
 class Apriori:
     def init(self,minSupport,minConfidence):
         self._minSupport = minSupport
         self._minConfidence = minConfidence
+        self._sets = {}
+        self._currentSet = 0
 
 
     def readFile(self,path):
@@ -35,6 +37,10 @@ class Apriori:
             Returns:
                 dic with the data as keys
         """
+        # variables for uniques 
+        self._currentSet = 1
+        self._uniqueValue = {}
+        self._sets[self._currentSet] = self._uniqueValue 
 
 
     def getSupport(self,data):
@@ -79,36 +85,70 @@ class Apriori:
                 Leverage (float): the Leverage
         """
 
+    
 
-    def eliminate(self,datadic):
+    def eliminate(self):
         """eliminates the data elements that are less than the min-support 
-           or the min-confidence
-        
-            Args:
-                datadic (dic): dic of data elements with the key ---> the support & confidence
-            
-            Returns:
-                datadic (dic): after eliminating the elements
-            
-        """
-
-
-    def constract(self, datadic):
-        """constracts the next level elements
-        
-            Args:
-                datadic (dic): dic of data elements with the key ---> the support & confidence
-            
-            Returns:
-                datadic (dic): after constacting the new combinations 
-        """
-
-    def Apriori(self):
-        """runs Apriori algorithm & prints the rules after
+           or the min-confidence, uses self._sets , and self._currentSet
         
             Args:
                 none
-            
+
             Returns:
                 none
         """
+
+    def calculateSupportAndConfidence(self):
+        """calculates Support And Confidence for the current set
+         
+            Args:
+                none
+
+            Returns:
+                none
+        """
+
+        for key, value in self._sets[self._currentSet].items():
+            value = (self.getSupport(key),self.getConfidence(key))
+    
+
+
+    def constract(self):
+        """constracts the next level elements, 
+            updates self._sets with a new key and a new set
+            update self._currentSet
+            
+        
+            Args:
+                none            
+            Returns:
+                none
+        """
+
+
+
+def aprioriAlgorithm(path, minSuppor, minConfidence):
+    """runs Apriori algorithm & prints the rules after
+        
+            Args:
+                path (string): 
+            
+            Returns:
+                none
+    """
+
+    apriori = Apriori(minSuppor, minConfidence)
+    apriori.readFile(path)
+    apriori.unique() 
+    apriori.calculateSupportAndConfidence()
+    apriori.eliminate() 
+   
+    while (len(apriori._sets[apriori._currentSet]) != 0):
+
+        apriori.constract()
+        apriori.calculateSupportAndConfidence()
+        apriori.eliminate()
+
+
+    # function to print last set
+        
