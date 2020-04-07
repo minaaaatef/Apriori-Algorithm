@@ -2,7 +2,7 @@ import pandas as pd
 
 
 class Apriori:
-    def init(self,minSupport,minConfidence):
+    def __init__(self,minSupport,minConfidence):
         self._minSupport = minSupport
         self._minConfidence = minConfidence
         self._sets = {}
