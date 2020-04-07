@@ -8,15 +8,23 @@ class Apriori:
 
 
     def readFile(self,path):
-        """Reads a text file and constract the base table
+        """Reads a text file and construct the base table
 
             Args:
-                path (str): the the pass to the text file
+                path (str): the path to the text file
+
+             variables used in another methods:
+                _dataTable 
 
             Returns:
                 None
         """
-
+        _file = pd.read_csv(path, sep='\s+', engine='python', header=None)
+        self._dataTable = pd.DataFrame(_file.iloc[:, 3:15])
+        self._dataTable.columns = ['MGEMLEEF Avg age', 'MOSHOOFD Customer main type', 'MGODRK Roman catholic',
+                             'MGODPR Protestant', 'MGODOV Other religion', 'MGODGE No religion', 'MRELGE Married',
+                             'MRELSA Living together', 'MRELOV Other relation', 'MFALLEEN Singles',
+                             'MFGEKIND Household without children', 'MFWEKIND Household with children']
 
     def unique(self):
         """Returns all unique values from the data table
