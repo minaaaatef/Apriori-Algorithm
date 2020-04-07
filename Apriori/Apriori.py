@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 class Apriori:
     def __init__(self,minSupport,minConfidence):
@@ -52,6 +52,35 @@ class Apriori:
             Returns:
                 support (float): the support
         """
+        #make an array with the number of transactions
+        num_of_values=1 # to calculate totla numbers of values multiplied in each others
+        num_of_col=len(data)# number of columns in data list
+        num_of_trans=5822 #total number of transactions
+        arr=np.zeros((num_of_col,num_of_trans))#array to get the specific rows from global data
+        lists=np.array(num_of_col)
+        for i in range(len(data)):#loop for tuples in the list
+            arr[i]=(np.array(self._dataTable[data[i][0]]))#get specific rows from global data
+            num_of_values*=len(data[i][1])
+        ###################################################### this section to merge values in all lists and generate onle list
+        merged_array=np.zeros([len(data),num_of_values])############## this array to merge all values in lists
+        for i in range(len(data)):
+            list_len=(int(num_of_values/len(data[i][1])))
+            arr1=np.full((list_len,len(data[i][1])),data[i][1])
+            arr1=arr1.flatten()
+            merged_array[i]=(arr1)
+        merged_array=merged_array.T
+        ##############################################################################
+        ans=np.ones(num_of_trans)
+        k=0
+        for i in range(len(merged_array)):
+            for j in range(len(merged_array[i])):
+                if(k==num_of_col):
+                    k=0
+                num=(arr[k]==merged_array[i][j])
+                ans=np.logical_and(ans,num)
+                k+=1
+            print(sum(ans))
+            ans=np.ones(num_of_trans)
 
 
     def getConfidence(self,data):
