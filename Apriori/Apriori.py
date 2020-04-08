@@ -87,7 +87,7 @@ class Apriori:
                 num=(arr[k]==merged_array[i][j])
                 ans=np.logical_and(ans,num)
                 k+=1
-            print(sum(ans))
+            return(sum(ans))
             ans=np.ones(num_of_trans)
 
 
