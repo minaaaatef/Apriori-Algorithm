@@ -40,6 +40,14 @@ class Apriori:
         # variables for uniques 
         self._currentSet = 1
         self._uniqueValue = {}
+
+        pd = self._dataTable
+        for col in pd:
+            arr = pd[col].unique()
+            for i in arr:
+                unique_entry = (col,i)
+                self._uniqueValue[unique_entry] = 0                                 
+
         self._sets[self._currentSet] = self._uniqueValue 
 
 
