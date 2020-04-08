@@ -42,7 +42,6 @@ def getSupport(df,data):
         arr1=arr1.flatten()
         merged_array[i]=(arr1)
     merged_array=merged_array.T
-    print(merged_array)
 ##############################################################################
     ans=np.ones(4)
     k=0
@@ -53,7 +52,7 @@ def getSupport(df,data):
             num=(arr[k]==merged_array[i][j])
             ans=np.logical_and(ans,num)
             k+=1
-        print(sum(ans))
+        print(merged_array[i],sum(ans))
         ans=np.ones(4)
 
 data=[('a',[1,2,3]),('b',[8,3]),('c',[0,1])]
