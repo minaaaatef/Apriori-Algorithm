@@ -187,8 +187,8 @@ class Apriori:
 
 
 
-    def constract(self):
-        """constracts the next level elements, 
+    def construct(self):
+        """constructs the next level elements, 
             updates self._sets with a new key and a new set
             update self._currentSet
             
@@ -222,7 +222,7 @@ class Apriori:
 
 
     def getRules(self):
-        """constracts the Rules set
+        """constructs the Rules set
             Args:
                 none            
             Returns:
@@ -243,9 +243,9 @@ class Apriori:
                     self._rules[(item,remaining)] = 0
                     self._rules[(remaining,item)] = 0
     
-    def prnitRules(self):
+    def printRules(self):
         for key, value in self._rules.items():
-            print (f"{key[0]} ----> {key[1]}  with confience = {value:3f}")
+            print (f"{key[0]} ----> {key[1]}  with confidence = {value:3f}")
          
             
 
@@ -262,19 +262,24 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
     """
 
     apriori = Apriori(minSuppor, minConfidence)
+    print("Loading Data...")
     apriori.readFile(path)
     apriori.unique() 
     apriori.calculateAllSupport()
     apriori.eliminate() 
    
+    print("Constructing Itemsets...")
     while (len(apriori._sets[apriori._currentSet]) != 0):
 
-        apriori.constract()
+        apriori.construct()
         apriori.calculateAllSupport()
         apriori.eliminate()
     
+    print("Getting Association Rules...")
     apriori.getRules()
+    print("Calculating the Confidence...")
     apriori.calculateAllConfidence()
     apriori.eliminateRules()
-    apriori.prnitRules()
+    print("Association Rules are:")
+    apriori.printRules()
     # function to print last set
