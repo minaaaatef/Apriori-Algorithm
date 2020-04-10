@@ -26,6 +26,7 @@ def getSupport(df,data):
     """
     #make an array with the number of transactions
     ans=np.ones(4)
+    num_of_trans=4
     for i in range(len(data)):
         arr=np.array(df[data[i][0]])
         num=(arr==data[i][1])
