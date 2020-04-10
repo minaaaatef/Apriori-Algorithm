@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 from itertools import combinations 
+from itertools import permutations 
+from math import floor 
 
 class Apriori:
     def __init__(self,minSupport,minConfidence):
@@ -80,7 +82,7 @@ class Apriori:
         tup=LeftTup+RightTup
         _intersection=self.getSupport(tup)
         _LHS=self.getSupport(LeftTup)
-        _confidence=intersection/_LHS
+        _confidence=_intersection/_LHS
         return (_confidence)
 
     def getlift(self,data):
@@ -115,9 +117,33 @@ class Apriori:
             Returns:
                 none
         """
+        deleteKey = []
         for key,value in self._sets[self._currentSet].items():
             if value < self._minSupport:
-                del self._sets[self._currentSet][key]
+                deleteKey.append(key)
+        
+        for key in deleteKey:
+            del self._sets[self._currentSet][key]
+
+    
+    def eliminateRules(self):
+        """eliminates the data elements that are less than the min-support 
+           or the min-confidence, uses self._sets , and self._currentSet
+        
+            Args:
+                none
+
+            Returns:
+                none
+        """
+        deleteKey = []
+        for key,value in self._rules.items():
+            if value < self._minConfidence:
+                deleteKey.append(key)
+        
+        for key in deleteKey:
+            del self._rules[key]
+
 
     def calculateAllSupport(self):
         """calculates Support for the current set
@@ -130,8 +156,26 @@ class Apriori:
         """
 
         for key, value in self._sets[self._currentSet].items():
-            value = self.getSupport(key)
+            val = self.getSupport(key)
+            self._sets[self._currentSet][key] = self.getSupport(key)
     
+
+
+    def calculateAllConfidence(self):
+        """calculates Support for the current set
+         
+            Args:
+                none
+
+            Returns:
+                none
+        """
+
+        for key, value in self._rules.items():
+            val = self.getConfidence(key[0],key[1])
+            self._rules[key] = val
+    
+
 
 
     def constract(self):
@@ -168,6 +212,33 @@ class Apriori:
         self._sets[self._currentSet] = newSet
 
 
+    def getRules(self):
+        """constracts the Rules set
+            Args:
+                none            
+            Returns:
+                none
+        """
+        self._rules = {}
+        _RuleSet = self._sets[self._currentSet - 1 ]
+        for oneSet in _RuleSet :
+           
+            if len(oneSet) < 2 : 
+                pass 
+             
+            for x in range(1, max(floor(len(oneSet) / 2),2) ):
+                
+                comb = combinations(oneSet, x)
+                for item in comb:
+                    remaining = tuple(x for x in oneSet if x not in item)
+                    self._rules[(item,remaining)] = 0
+                    self._rules[(remaining,item)] = 0 
+    
+    def prnitRules(self):
+        for key, value in self._rules.items():
+            print (f"{key[0]} ----> {key[1]}  with confience = {value:3f}")
+         
+            
 
 
 
@@ -193,7 +264,8 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
         apriori.calculateAllSupport()
         apriori.eliminate()
     
-    print(apriori._sets[apriori._currentSet])
-
+    apriori.getRules()
+    apriori.calculateAllConfidence()
+    apriori.eliminateRules()
+    apriori.prnitRules()
     # function to print last set
-        
