@@ -174,16 +174,12 @@ class Apriori:
         for key_1, value_1 in self._sets[self._currentSet].items():
             current_index += 1
             for key_2,value_2 in list(self._sets[self._currentSet].items())[current_index:]:
-                if self._currentSet < 2 :
-                    # in case of 2nd iteemset , get combinations
-                    combined = tuple(combinations((key_1,key_2),self._currentSet+1))
-                else :
-                    # join the 2 tuples
-                    join = key_1 + key_2
-                    # remove duplicates
-                    join = tuple(set(join))
-                    # get combinations
-                    combined = tuple(combinations(join, self._currentSet+1))
+                # join the 2 tuples
+                join = key_1 + key_2
+                # remove duplicates
+                join = tuple(set(join))
+                # get combinations
+                combined = tuple(combinations(join, self._currentSet+1))
 
                 # append new combination to dict
                 if len(combined) != 0 :

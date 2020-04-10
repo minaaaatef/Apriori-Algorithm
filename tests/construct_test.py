@@ -24,16 +24,13 @@ def constract(currentSet = 1):
         current_index = 0
         for key_1, value_1 in sets[currentSet].items():
             current_index +=1
-            for key_2,value_2 in list(sets[currentSet].items())[current_index:]:
-                if currentSet < 2 :
-                    combined = tuple(combinations((key_1,key_2),currentSet+1))
-                else :
-                    # join the 2 tuples
-                    join = key_1 + key_2
-                    # remove duplicates
-                    join = tuple(set(join))
-                    # get combinations
-                    combined = tuple(combinations(join, currentSet+1))
+            for key_2,value_2 in list(sets[currentSet].items())[current_index:]:  
+                # join the 2 tuples
+                join = key_1 + key_2
+                # remove duplicates
+                join = tuple(set(join))
+                # get combinations
+                combined = tuple(combinations(join, currentSet+1))
 
                 # append new combination to dict
                 if len(combined) != 0 :
