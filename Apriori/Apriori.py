@@ -100,16 +100,20 @@ class Apriori:
         _lift=_nom/_den
         return (_lift)
 
-    def getLeverage(self,data):
-        """calculates Leverage from the data table
+    def getLeverage(self,LeftTup,RightTup):
+        """calculates Leverage for each rule from the data table
         
             Args:
-                data (list): list of data to calculate it's Leverage in the data table
+                LeftTup,RightTup : Tuple of Tuples to calculate it's Leverage
                 
             Returns:
                 Leverage (float): the Leverage
         """
-
+        tup=LeftTup+RightTup
+        _nom=self.getSupport(tup)
+        _den=self.getSupport(LeftTup) * self.getSupport(RightTup)
+        _leverage=_nom - _den
+        return (_leverage)
     
 
     def eliminate(self):
