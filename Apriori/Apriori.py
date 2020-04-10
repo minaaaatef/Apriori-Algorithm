@@ -89,16 +89,21 @@ class Apriori:
             ans=np.ones(num_of_trans)
 
 
-    def getConfidence(self,data):
+    def getConfidence(self,LeftTup,RightTup):
         """calculates Confidence from the data table
         
             Args:
-                data (list): list of data to calculate it's Confidence in the data table
+                LeftTup,RightTup : Tuple of Tuples to calculate it's Confidence in the data table
                 
             Returns:
                 confidence (float): the Confidence
         """
 
+        tup=LeftTup+RightTup
+        _intersection=self.getSupport(tup)
+        _LHS=self.getSupport(LeftTup)
+        _confidence=intersection/_LHS
+        return (_confidence)
 
     def getlift(self,data):
         """calculates lift from the data table
