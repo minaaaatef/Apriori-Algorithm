@@ -85,15 +85,20 @@ class Apriori:
         _confidence=_intersection/_LHS
         return (_confidence)
 
-    def getlift(self,data):
-        """calculates lift from the data table
+    def getlift(self,LeftTup,RightTup):
+        """calculates lift for each rule from the data table
         
             Args:
-                data (list): list of data to calculate it's lift in the data table
+                LeftTup,RightTup : Tuple of Tuples to calculate it's Lift
                 
             Returns:
                 lift (float): the lift
         """
+        tup=LeftTup+RightTup
+        _nom=self.getSupport(tup)
+        _den=self.getSupport(LeftTup) * self.getSupport(RightTup)
+        _lift=_nom/_den
+        return (_lift)
 
     def getLeverage(self,data):
         """calculates Leverage from the data table
@@ -232,7 +237,7 @@ class Apriori:
                 for item in comb:
                     remaining = tuple(x for x in oneSet if x not in item)
                     self._rules[(item,remaining)] = 0
-                    self._rules[(remaining,item)] = 0 
+                    self._rules[(remaining,item)] = 0
     
     def prnitRules(self):
         for key, value in self._rules.items():
