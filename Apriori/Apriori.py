@@ -43,7 +43,7 @@ class Apriori:
         for col in pd:
             arr = pd[col].unique()
             for i in arr:
-                unique_entry = (col,i)
+                unique_entry = ((col,i),)
                 self._uniqueValue[unique_entry] = 0                                 
 
         self._sets[self._currentSet] = self._uniqueValue 
@@ -132,9 +132,12 @@ class Apriori:
             Returns:
                 none
         """
+        for key,value in self._sets[self._currentSet].items():
+            if value < self._minSupport:
+                del self._sets[self._currentSet][key]
 
-    def calculateSupportAndConfidence(self):
-        """calculates Support And Confidence for the current set
+    def calculateAllSupport(self):
+        """calculates Support for the current set
          
             Args:
                 none
@@ -144,7 +147,7 @@ class Apriori:
         """
 
         for key, value in self._sets[self._currentSet].items():
-            value = (self.getSupport(key),self.getConfidence(key))
+            value = self.getSupport(key)
     
 
 
@@ -202,15 +205,16 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
     apriori = Apriori(minSuppor, minConfidence)
     apriori.readFile(path)
     apriori.unique() 
-    apriori.calculateSupportAndConfidence()
+    apriori.calculateAllSupport()
     apriori.eliminate() 
    
     while (len(apriori._sets[apriori._currentSet]) != 0):
 
         apriori.constract()
-        apriori.calculateSupportAndConfidence()
+        apriori.calculateAllSupport()
         apriori.eliminate()
-
+    
+    print(apriori._sets[apriori._currentSet])
 
     # function to print last set
         

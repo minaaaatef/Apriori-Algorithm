@@ -2,4 +2,7 @@ from Apriori import *
 
 if __name__ == "__main__":
     
-    apriori = Apriori()
+    path = r'Data/ticdata2000.txt'
+    minSupport = 0.5
+    minCofidence = 0.5
+    aprioriAlgorithm(path, minSupport, minCofidence)

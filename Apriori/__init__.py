@@ -1,3 +1,4 @@
-from Apriori.Apriori import Apriori
+from Apriori.Apriori import aprioriAlgorithm
 
-__all__ = ['Apriori']
+
+__all__ = ['aprioriAlgorithm']
