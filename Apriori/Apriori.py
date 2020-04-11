@@ -211,11 +211,13 @@ class Apriori:
                 join = tuple(set(join))
                 # get combinations
                 combined = tuple(combinations(join, self._currentSet+1))
+                # sort combination
+                combined = tuple(sorted(combined[0]))
 
                 # append new combination to dict
                 if len(combined) != 0 :
-                    newSet[combined[0]] = 0
-        
+                    newSet[combined] = 0
+
         self._currentSet += 1
         # append the new itemset in the sets dict 
         self._sets[self._currentSet] = newSet
@@ -277,9 +279,9 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
     
     print("Getting Association Rules...")
     apriori.getRules()
-    print("Calculating the Confidence...")
+    print("Calculating the Confidence... \n")
     apriori.calculateAllConfidence()
     apriori.eliminateRules()
     print("Association Rules are:")
+    print(len("Association Rules are:") * ".",'\n')
     apriori.printRules()
-    # function to print last set
