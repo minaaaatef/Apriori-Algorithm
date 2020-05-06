@@ -268,7 +268,11 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
     apriori.readFile(path)
     apriori.unique() 
     apriori.calculateAllSupport()
-    apriori.eliminate() 
+    apriori.eliminate()
+    if (apriori._sets[1].__len__() == 0):
+            print("There is No rules")
+            return
+
    
     print("Constructing Itemsets...")
     while (len(apriori._sets[apriori._currentSet]) != 0):
