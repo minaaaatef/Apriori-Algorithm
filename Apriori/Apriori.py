@@ -245,6 +245,13 @@ class Apriori:
                     self._rules[(item,remaining)] = 0
                     self._rules[(remaining,item)] = 0
     
+     def ArrangeRules(self):
+        count={}
+        for key, value in self._rules.items():
+             lev=self.getLeverage(key[0],key[1])
+             count[key]=lev
+        sortedList=sorted(count.items(), key=lambda x: x[1], reverse=True)
+        
     def printRules(self):
         for key, value in self._rules.items():
             print (f"{key[0]} ----> {key[1]}  with confidence = {value:3f}")
