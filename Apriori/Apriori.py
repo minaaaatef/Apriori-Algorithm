@@ -273,14 +273,16 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
             print("There is No rules")
             return
 
-   
     print("Constructing Itemsets...")
     while (len(apriori._sets[apriori._currentSet]) != 0):
-
         apriori.construct()
         apriori.calculateAllSupport()
         apriori.eliminate()
     
+    if apriori._currentSet == 2:
+        print("There is No rules")
+        return
+
     print("Getting Association Rules...")
     apriori.getRules()
     print("Calculating the Confidence... \n")
