@@ -147,7 +147,7 @@ class Apriori:
         """
         deleteKey = []
         for key,value in self._rules.items():
-            if value < self._minConfidence:
+            if value[0] < self._minConfidence:
                 deleteKey.append(key)
         
         for key in deleteKey:
@@ -182,7 +182,7 @@ class Apriori:
 
         for key, value in self._rules.items():
             val = self.getConfidence(key[0],key[1])
-            self._rules[key] = val
+            self._rules[key] = [val]
     
 
 
@@ -245,16 +245,25 @@ class Apriori:
                     self._rules[(item,remaining)] = 0
                     self._rules[(remaining,item)] = 0
     
-     def ArrangeRules(self):
+
+    def ArrangeRulesByLev(self):
         count={}
         for key, value in self._rules.items():
-             lev=self.getLeverage(key[0],key[1])
-             count[key]=lev
-        sortedList=sorted(count.items(), key=lambda x: x[1], reverse=True)
-        
+            lev=self.getLeverage(key[0],key[1])
+            self._rules[key].append(lev)
+
+
+    def ArrangeRulesByLift(self):
+        count={}
+        for key, value in self._rules.items():
+             Lift=self.getlift(key[0],key[1])
+             self._rules[key].append(Lift)
+    
+
+
     def printRules(self):
         for key, value in self._rules.items():
-            print (f"{key[0]} ----> {key[1]}  with confidence = {value:3f}")
+            print (f"{key[0]} ----> {key[1]}  with conf. = {value[0]:3f}, lev. = {value[1]:3f}, left = {value[2]:3f} ")
          
             
 
@@ -297,4 +306,7 @@ def aprioriAlgorithm(path, minSuppor, minConfidence):
     apriori.eliminateRules()
     print("Association Rules are:")
     print(len("Association Rules are:") * ".",'\n')
+    apriori.ArrangeRulesByLev()
+    apriori.ArrangeRulesByLift()
     apriori.printRules()
+
